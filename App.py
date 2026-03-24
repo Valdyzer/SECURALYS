@@ -23,7 +23,7 @@ class PirApp(ctk.CTk):
 
         # Configuration de la liaison Série (À AJUSTER : "COM3" ou "/dev/ttyACM0")
         try:
-            self.ser = serial.Serial('COM3', 9600, timeout=0.1) 
+            self.ser = serial.Serial('/dev/cu.usbmodem113301', 9600, timeout=0.1) 
             self.running = True
             # Lancer la lecture dans un thread séparé pour ne pas figer l'interface
             self.thread = threading.Thread(target=self.read_serial, daemon=True)
@@ -33,6 +33,7 @@ class PirApp(ctk.CTk):
             print(f"Erreur de port : {e}")
 
     def read_serial(self):
+        print("ok")
         while self.running:
             if self.ser.in_waiting > 0:
                 line = self.ser.readline().decode('utf-8').strip()
