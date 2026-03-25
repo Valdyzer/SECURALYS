@@ -23,7 +23,7 @@ class PirApp(ctk.CTk):
 
         # Configuration de la liaison Série (À AJUSTER : "COM3" ou "/dev/ttyACM0")
         try:
-            self.ser = serial.Serial('/dev/cu.usbmodem113301', 9600, timeout=0.1) 
+            self.ser = serial.Serial('/dev/cu.usbmodem13301', 9600, timeout=0.1) 
             self.running = True
             # Lancer la lecture dans un thread séparé pour ne pas figer l'interface
             self.thread = threading.Thread(target=self.read_serial, daemon=True)
@@ -33,23 +33,29 @@ class PirApp(ctk.CTk):
             print(f"Erreur de port : {e}")
 
     def read_serial(self):
-        print("ok")
         while self.running:
             if self.ser.in_waiting > 0:
-                line = self.ser.readline().decode('utf-8').strip()
                 
-                if line == "MOTION_DETECTED":
-                    self.update_ui(True)
-                elif line == "STILL":
-                    self.update_ui(False)
+                line = self.ser.readline().decode('utf-8').strip()
+                print(f"Reçu : '{line}' | Type : {type(line)} | Longueur : {len(line)}")
+
+                if line == "MOUVEMENT DETECTE":
+                    self.update_ui(1) 
+                elif line == "PRESENCE":
+                    self.update_ui(2)
+                elif line == "CALME" or "FAUSSE ALERTE":
+                    self.update_ui(3)
 
     def update_ui(self, motion):
-        if motion:
-            self.label_status.configure(text="MOUVEMENT DÉTECTÉ !", text_color="#FF5555")
+        if motion == 1:
+            self.label_status.configure(text="MOUVEMENT DETECTE !", text_color="#FFAA55")
+            self.indicator.configure(fg_color="#FFAA55")
+        elif motion == 2:
+            self.label_status.configure(text="ALARME", text_color="#FF5555")
             self.indicator.configure(fg_color="#FF5555")
         else:
             self.label_status.configure(text="Pas de mouvement", text_color="white")
-            self.indicator.configure(fg_color="gray")
+            self.indicator.configure(fg_color="#00E317")
 
 if __name__ == "__main__":
     app = PirApp()
