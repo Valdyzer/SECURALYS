@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECURALYS | Gestion Conteneur Connecté</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Subtle background pattern -->
+    <div class="bg-pattern"></div>
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-brand">SECURALYS</span>
+                    <span class="logo-sub">Conteneur Connecté</span>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-page="dashboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1"/>
+                </svg>
+                <span>Tableau de bord</span>
+            </a>
+            <a href="#" class="nav-item" data-page="ouvriers">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <span>Ouvriers</span>
+            </a>
+            <a href="#" class="nav-item" data-page="outils">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+                <span>Outils</span>
+            </a>
+            <a href="#" class="nav-item" data-page="historique">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span>Historique</span>
+            </a>
+            <a href="#" class="nav-item" data-page="parametres">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+                <span>Paramètres</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="status-card">
+                <div class="status-header">
+                    <span class="status-dot" id="status-dot"></span>
+                    <span class="status-label">Statut Arduino</span>
+                </div>
+                <span class="status-value" id="status-value">Déconnecté</span>
+            </div>
+            
+            <button class="mode-nuit-btn" id="mode-nuit-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+                <span>Mode Nuit</span>
+                <div class="toggle-switch">
+                    <div class="toggle-knob"></div>
+                </div>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-left">
+                <h1 class="page-title" id="page-title">Tableau de bord</h1>
+                <p class="page-subtitle">Bienvenue sur votre espace de gestion</p>
+            </div>
+            <div class="header-right">
+                <div class="datetime">
+                    <span class="time" id="current-time">--:--</span>
+                    <span class="date" id="current-date">--/--/----</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Page -->
+        <section class="page active" id="page-dashboard">
+            <!-- Quick Action -->
+            <div class="page-actions" style="margin-bottom: 20px;">
+                <button class="btn btn-primary" onclick="openEmpruntModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    Enregistrer un emprunt
+                </button>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-total-outils">--</span>
+                        <span class="stat-label">Outils total</span>
+                    </div>
+                    <div class="stat-trend up">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-disponibles">--</span>
+                        <span class="stat-label">Disponibles</span>
+                    </div>
+                    <div class="stat-badge green">En stock</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-empruntes">--</span>
+                        <span class="stat-label">En cours</span>
+                    </div>
+                    <div class="stat-badge orange">Empruntés</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon brand">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-ouvriers">--</span>
+                        <span class="stat-label">Ouvriers actifs</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Grid -->
+            <div class="content-grid">
+                <!-- Emprunts en cours -->
+                <div class="card emprunts-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="title-dot"></div>
+                            <h2>Emprunts en cours</h2>
+                        </div>
+                        <span class="card-badge" id="emprunts-count">0</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="table-wrapper">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Outil</th>
+                                        <th>Ouvrier</th>
+                                        <th>Sortie</th>
+                                        <th>Durée</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="emprunts-table">
+                                    <tr class="empty-row">
+                                        <td colspan="5">
+                                            <div class="empty-state">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                                </svg>
+                                                <span>Tous les outils sont disponibles</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alertes -->
+                <div class="card alerts-card" id="alertes-panel" style="display: none;">
+                    <div class="card-header alert-header">
+                        <div class="card-title">
+                            <div class="alert-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                                    <line x1="12" y1="9" x2="12" y2="13"/>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                                </svg>
+                            </div>
+                            <h2>Alertes</h2>
+                        </div>
+                    </div>
+                    <div class="card-content" id="alertes-content">
+                    </div>
+                </div>
+
+                <!-- Activité récente -->
+                <div class="card activity-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="title-dot"></div>
+                            <h2>Activité récente</h2>
+                        </div>
+                        <a href="#" class="card-link" onclick="navigateTo('historique'); return false;">
+                            Voir tout
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="card-content">
+                        <div class="activity-list" id="activity-list">
+                            <div class="empty-state small">
+                                <span>Aucune activité récente</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ouvriers Page -->
+        <section class="page" id="page-ouvriers">
+            <div class="page-actions">
+                <button class="btn btn-primary" onclick="openModal('ouvrier')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    Ajouter un ouvrier
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-content no-padding">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nom complet</th>
+                                <th>Badge RFID</th>
+                                <th>Rôle</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ouvriers-table">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Outils Page -->
+        <section class="page" id="page-outils">
+            <div class="page-actions">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">Tous</button>
+                    <button class="filter-tab" data-filter="disponible">Disponibles</button>
+                    <button class="filter-tab" data-filter="emprunte">Empruntés</button>
+                </div>
+                <button class="btn btn-primary" onclick="openModal('outil')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    Ajouter un outil
+                </button>
+            </div>
+
+            <div class="tools-grid" id="outils-grid">
+            </div>
+        </section>
+
+        <!-- Historique Page -->
+        <section class="page" id="page-historique">
+            <div class="page-actions">
+                <button class="btn btn-secondary" onclick="exportCSV()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Exporter CSV
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-content no-padding">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Outil</th>
+                                <th>Ouvrier</th>
+                                <th>Durée</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historique-table">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Paramètres Page -->
+        <section class="page" id="page-parametres">
+            <div class="settings-grid">
+                <!-- Connexion Arduino -->
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="title-dot"></div>
+                            <h2>Connexion Arduino</h2>
+                        </div>
+                        <span class="badge badge-warning" id="arduino-status-badge">Déconnecté</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="form-group">
+                            <label class="form-label">Port série</label>
+                            <select class="form-select" id="serial-port">
+                                <option value="COM3">COM3</option>
+                                <option value="COM4">COM4</option>
+                                <option value="COM5">COM5</option>
+                                <option value="/dev/ttyUSB0">/dev/ttyUSB0 (Linux)</option>
+                                <option value="/dev/cu.usbmodem">/dev/cu.usbmodem (Mac)</option>
+                            </select>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="connectArduino()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                                Connecter
+                            </button>
+                            <button class="btn btn-secondary" onclick="disconnectArduino()">Déconnecter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="title-dot"></div>
+                            <h2>Notifications</h2>
+                        </div>
+                        <span class="badge badge-success" id="notif-status-badge">Actif</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="form-group">
+                            <label class="form-label">Heure de vérification</label>
+                            <input type="time" class="form-input" id="notif-heure" value="18:00">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email du responsable</label>
+                            <input type="email" class="form-input" id="notif-email" placeholder="responsable@entreprise.com">
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="saveNotifConfig()">Enregistrer</button>
+                            <button class="btn btn-secondary" onclick="testNotifications()">Tester</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulation RFID -->
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="title-dot"></div>
+                            <h2>Simulation RFID</h2>
+                        </div>
+                        <span class="badge badge-info">Test</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="modal-description">Simulez la détection de badges et d'outils sans Arduino connecté.</p>
+                        <div class="form-group">
+                            <label class="form-label">Badge ouvrier</label>
+                            <div class="input-with-button">
+                                <select class="form-select" id="sim-badge">
+                                    <!-- Rempli dynamiquement -->
+                                </select>
+                                <button class="btn btn-secondary" onclick="simulateBadge()">Simuler</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tag outil</label>
+                            <div class="input-with-button">
+                                <select class="form-select" id="sim-outil">
+                                    <!-- Rempli dynamiquement -->
+                                </select>
+                                <button class="btn btn-secondary" onclick="simulateOutil()">Simuler</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal-backdrop" id="modal-backdrop">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Ajouter</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <form id="modal-form">
+                <div class="modal-body" id="modal-fields">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Confirmer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Emprunt Modal -->
+    <div class="modal-backdrop" id="emprunt-modal-backdrop">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Enregistrer un emprunt</h3>
+                <button class="modal-close" onclick="closeEmpruntModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <form id="emprunt-form" onsubmit="submitEmprunt(event)">
+                <div class="modal-body">
+                    <p class="modal-description">Sélectionnez l'ouvrier et l'outil pour créer un lien d'emprunt.</p>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Ouvrier</label>
+                        <select class="form-select" name="ouvrier_id" id="emprunt-ouvrier" required>
+                            <option value="">-- Sélectionner un ouvrier --</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Outil disponible</label>
+                        <select class="form-select" name="outil_id" id="emprunt-outil" required>
+                            <option value="">-- Sélectionner un outil --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeEmpruntModal()">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Créer l'emprunt</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
