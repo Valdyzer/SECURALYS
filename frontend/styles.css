@@ -1371,3 +1371,50 @@ body {
         text-align: center;
     }
 }
+
+/* ─── Actions sur les cartes outils ────────────────────────────────────────── */
+.tool-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(107, 68, 35, 0.08);
+}
+
+.tool-actions .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ─── Filtre catégories outils ──────────────────────────────────────────────── */
+.filter-cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.filter-cat {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(107, 68, 35, 0.12);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    letter-spacing: 0.3px;
+}
+
+.filter-cat:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+}
+
+.filter-cat.active {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: white;
+}

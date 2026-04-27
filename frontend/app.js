@@ -321,20 +321,45 @@ async function deleteOuvrier(id) {
 }
 
 // ─── Outils ──────────────────────────────────────────────────────────────────
-async function loadOutils(filter = 'all') {
+let activeDispoFilter = 'all';
+let activeCategorieFilter = 'all';
+
+async function loadOutils(filter = null) {
+    // Déterminer quel filtre est mis à jour
+    const dispoFilters = ['all', 'disponible', 'emprunte'];
+    if (filter !== null) {
+        if (filter === 'all-cat') {
+            activeCategorieFilter = 'all';
+        } else if (dispoFilters.includes(filter)) {
+            activeDispoFilter = filter;
+        } else {
+            activeCategorieFilter = filter;
+        }
+    }
+
     try {
         let endpoint = '/outils/';
-        if (filter === 'disponible') endpoint += '?disponible=true';
-        if (filter === 'emprunte') endpoint += '?disponible=false';
-        
+        if (activeDispoFilter === 'disponible') endpoint += '?disponible=true';
+        if (activeDispoFilter === 'emprunte') endpoint += '?disponible=false';
+
         const outils = await api(endpoint);
         state.outils = outils;
-        renderOutils(outils);
-        
-        // Update filter buttons
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.filter === filter);
-            btn.onclick = () => loadOutils(btn.dataset.filter);
+
+        // Appliquer le filtre catégorie côté client
+        const filtered = activeCategorieFilter === 'all'
+            ? outils
+            : outils.filter(o => (o.categorie || '').toLowerCase() === activeCategorieFilter);
+
+        renderOutils(filtered);
+
+        // Mettre à jour les boutons dispo
+        document.querySelectorAll('.filter-tab').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.filter === activeDispoFilter);
+        });
+
+        // Mettre à jour les boutons catégorie
+        document.querySelectorAll('.filter-cat').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.cat === activeCategorieFilter);
         });
     } catch (error) {
         showToast('Erreur de chargement des outils', 'error');
@@ -370,8 +395,41 @@ function renderOutils(outils) {
                 <span class="tool-category">${o.categorie || 'Non catégorisé'}</span>
                 ${!o.est_disponible ? `<span class="tool-borrower">En cours d'utilisation</span>` : ''}
             </div>
+            <div class="tool-actions">
+                <button class="btn btn-small btn-secondary" onclick="editOutil(${o.id})">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                    Modifier
+                </button>
+            </div>
         </div>
     `).join('');
+}
+
+function editOutil(id) {
+    const outil = state.outils.find(o => o.id === id);
+    if (!outil) return;
+    openModal('outil', id);
+    setTimeout(() => {
+        document.querySelector('[name="nom"]').value = outil.nom || '';
+        document.querySelector('[name="tag_rfid"]').value = outil.tag_rfid || '';
+        document.querySelector('[name="categorie"]').value = outil.categorie || 'électroportatif';
+        document.querySelector('[name="description"]').value = outil.description || '';
+    }, 50);
+}
+
+async function deleteOutil(id, nom) {
+    if (!confirm(`Supprimer l'outil "${nom}" ? Cette action est irréversible.`)) return;
+    try {
+        await api(`/outils/${id}`, { method: 'DELETE' });
+        showToast(`Outil "${nom}" supprimé`, 'success');
+        closeModal();
+        loadOutils();
+    } catch (error) {
+        showToast(error.message || 'Erreur lors de la suppression', 'error');
+    }
 }
 
 // ─── Historique ──────────────────────────────────────────────────────────────
@@ -486,6 +544,7 @@ function openModal(type, editId = null) {
         form.onsubmit = (e) => submitOuvrier(e, editId);
         
     } else if (type === 'outil') {
+        const outilData = editId ? state.outils.find(o => o.id === editId) : null;
         title.textContent = editId ? 'Modifier l\'outil' : 'Ajouter un outil';
         fields.innerHTML = `
             <div class="form-group">
@@ -511,7 +570,30 @@ function openModal(type, editId = null) {
                 <input type="text" class="form-input" name="description" placeholder="Détails supplémentaires">
             </div>
         `;
-        
+
+        // Footer : bouton Supprimer visible uniquement en mode édition
+        const modalFooter = overlay.querySelector('.modal-footer');
+        if (editId && outilData) {
+            modalFooter.innerHTML = `
+                <button type="button" class="btn btn-danger" onclick="deleteOutil(${editId}, '${outilData.nom}')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;vertical-align:middle;">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                    Supprimer
+                </button>
+                <div style="display:flex;gap:8px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            `;
+        } else {
+            modalFooter.innerHTML = `
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+                <button type="submit" class="btn btn-primary">Confirmer</button>
+            `;
+        }
+
         form.onsubmit = (e) => submitOutil(e, editId);
     }
 }
@@ -757,7 +839,7 @@ async function checkArduinoStatus() {
 }
 
 async function connectArduino() {
-    const myMacPort = "/dev/tty.usbmodem13301"; // Votre port ici
+    const myMacPort = "/dev/tty.usbmodem113301"; // Votre port ici
     try {
         const res = await fetch(`${API_BASE}/rfid/connect`, {
             method: 'POST',

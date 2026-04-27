@@ -301,9 +301,9 @@
         <section class="page" id="page-outils">
             <div class="page-actions">
                 <div class="filter-tabs">
-                    <button class="filter-tab active" data-filter="all">Tous</button>
-                    <button class="filter-tab" data-filter="disponible">Disponibles</button>
-                    <button class="filter-tab" data-filter="emprunte">Empruntés</button>
+                    <button class="filter-tab active" data-filter="all" onclick="loadOutils('all')">Tous</button>
+                    <button class="filter-tab" data-filter="disponible" onclick="loadOutils('disponible')">Disponibles</button>
+                    <button class="filter-tab" data-filter="emprunte" onclick="loadOutils('emprunte')">Empruntés</button>
                 </div>
                 <button class="btn btn-primary" onclick="openModal('outil')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -312,6 +312,14 @@
                     </svg>
                     Ajouter un outil
                 </button>
+            </div>
+            <div class="filter-cats">
+                <button class="filter-cat active" data-cat="all" onclick="loadOutils('all-cat')">Toutes catégories</button>
+                <button class="filter-cat" data-cat="électroportatif" onclick="loadOutils('électroportatif')">Électroportatif</button>
+                <button class="filter-cat" data-cat="manuel" onclick="loadOutils('manuel')">Manuel</button>
+                <button class="filter-cat" data-cat="mesure" onclick="loadOutils('mesure')">Mesure</button>
+                <button class="filter-cat" data-cat="sécurité" onclick="loadOutils('sécurité')">Sécurité</button>
+                <button class="filter-cat" data-cat="autre" onclick="loadOutils('autre')">Autre</button>
             </div>
 
             <div class="tools-grid" id="outils-grid">

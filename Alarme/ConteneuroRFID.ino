@@ -37,8 +37,8 @@
 
 // RFID RC522
 #define RST_PIN         9
-#define SS_PIN          10
-
+#define SS_PIN          10  // Arduino Uno : SS matériel = 10 (SDA du RC522)
+ 
 // Capteur PIR (mode nuit)
 #define PIR_PIN         2
 
@@ -78,10 +78,12 @@ String lastUID = "";
 void setup() {
     // Communication série
     Serial.begin(9600);
-    while (!Serial);
+    // Ne pas bloquer sur Serial pour une Uno
     
     // Initialisation SPI et RFID
     SPI.begin();
+    // Sur Arduino, s'assurer que la broche SS est en OUTPUT pour rester maître SPI
+    pinMode(SS_PIN, OUTPUT);
     rfid.PCD_Init();
     
     // Configuration des pins
