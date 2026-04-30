@@ -28,7 +28,7 @@ Il est recommandé d'utiliser un environnement virtuel pour éviter les conflits
    
 4. Installez les dépendances
    ```bash
-   pip install fastapi uvicorn serial sqlalchemy
+   pip install fastapi uvicorn pyserial sqlalchemy
    
 5. Lancez le serveur
    ```bash
