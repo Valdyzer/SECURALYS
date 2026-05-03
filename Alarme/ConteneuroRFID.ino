@@ -8,18 +8,17 @@
  * - Communication série avec le backend Python
  * 
  * Format des messages série envoyés :
- *   BADGE:XXXXXXXX    → Badge ouvrier détecté
- *   OUTIL:XXXXXXXX    → Tag outil détecté  
- *   ALARME:INTRUSION  → Intrusion détectée en mode nuit
- *   ALARME:OUTIL      → Outil sorti sans badge associé
- *   STATUS:READY      → Système prêt
- *   STATUS:NUIT_ON    → Mode nuit activé
- *   STATUS:NUIT_OFF   → Mode nuit désactivé
+ *   XXXXXXXX             → UID du tag détecté (le backend détermine le type)
+ *   ALARME:INTRUSION     → Intrusion détectée en mode nuit
+ *   ALARME:OUTIL         → Outil sorti sans badge associé
+ *   STATUS:READY         → Système prêt
+ *   STATUS:NUIT_ON       → Mode nuit activé
+ *   STATUS:NUIT_OFF      → Mode nuit désactivé
  * 
  * Commandes série acceptées :
- *   NUIT:ON           → Activer mode nuit
- *   NUIT:OFF          → Désactiver mode nuit
- *   PING              → Test connexion (répond PONG)
+ *   NUIT:ON              → Activer mode nuit
+ *   NUIT:OFF             → Désactiver mode nuit
+ *   PING                 → Test connexion (répond PONG)
  * 
  * Matériel requis :
  * - Arduino Mega 2560
@@ -182,11 +181,14 @@ void checkRFID() {
     lastUID = uid;
     lastReadTime = currentTime;
     
+    Serial.println(uid);
+    /*
     // Déterminer le type de tag (badge ou outil)
     // Convention : les badges commencent par "B", les outils par "O"
     // ou on peut distinguer par la longueur/format
     String tagType = determineTagType(uid);
-    
+
+
     if (tagType == "BADGE") {
         digitalWrite(LED_BADGE, HIGH);
         Serial.println("BADGE:" + uid);
@@ -199,7 +201,7 @@ void checkRFID() {
         delay(500);
         digitalWrite(LED_OUTIL, LOW);
     }
-    
+    */
     // Arrêter la communication avec la carte
     rfid.PICC_HaltA();
     rfid.PCD_StopCrypto1();
@@ -217,6 +219,7 @@ String getUID() {
     return uid;
 }
 
+/*
 String determineTagType(String uid) {
     // Pour ce prototype, on utilise une convention simple :
     // - Les 4 premiers caractères déterminent le type
@@ -235,6 +238,7 @@ String determineTagType(String uid) {
     }
     return "OUTIL";
 }
+*/
 
 // ═══════════════════════════════════════════════════════════════════════════
 // MODE NUIT - DÉTECTION PIR

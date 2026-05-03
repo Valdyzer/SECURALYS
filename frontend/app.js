@@ -839,7 +839,7 @@ async function checkArduinoStatus() {
 }
 
 async function connectArduino() {
-    const myMacPort = "/dev/tty.usbmodem113301"; // Votre port ici
+    const myMacPort = "/dev/tty.usbmodem13201"; // Votre port ici
     try {
         const res = await fetch(`${API_BASE}/rfid/connect`, {
             method: 'POST',

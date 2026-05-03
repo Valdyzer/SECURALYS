@@ -52,7 +52,7 @@ class RFIDService:
     
     def __init__(
         self,
-        port: str = "/dev/tty.usbmodem13301",
+        port: str = "/dev/tty.usbmodem13201",
         baud_rate: int = 9600,
         on_emprunt: Optional[Callable[[int, int], None]] = None,
         on_retour: Optional[Callable[[int], None]] = None,
@@ -94,7 +94,7 @@ class RFIDService:
         self.outils_empruntes: dict[str, int] = {}  # tag_uid → emprunt_id
         
         # Lock pour thread-safety
-        self.lock = threading.Lock()
+        self.lock = threading.RLock()
     
     def charger_mappings(self, badges: dict[str, int], outils: dict[str, int]) -> None:
         """
@@ -124,6 +124,8 @@ class RFIDService:
         """Démarre le service RFID."""
         try:
             self.serial = serial.Serial(self.port, self.baud_rate, timeout=1)
+            time.sleep(2)  # ← attendre le reset Arduino
+            self.serial.reset_input_buffer()  # ← vider le buffer parasite
             self.running = True
             self.connected = True
             self.thread = threading.Thread(target=self._read_loop, daemon=True)
@@ -166,15 +168,7 @@ class RFIDService:
         """Traite un message reçu de l'Arduino."""
         logger.info(f"[RFID] Reçu: {message}")
         
-        if message.startswith("BADGE:"):
-            uid = message[6:]
-            self._handle_badge(uid)
-        
-        elif message.startswith("OUTIL:"):
-            uid = message[6:]
-            self._handle_outil(uid)
-        
-        elif message.startswith("ALARME:"):
+        if message.startswith("ALARME:"):
             reason = message[7:]
             self._handle_alarme(reason)
         
@@ -182,6 +176,38 @@ class RFIDService:
             status = message[7:]
             if self.on_status:
                 self.on_status(status)
+        
+        else:
+            # Format simplifié : juste l'UID du tag, sans préfixe
+            # On détermine le type (BADGE ou OUTIL) en cherchant dans les mappings
+            uid = message.strip()
+            self._handle_tag_detection(uid)
+    
+    def _handle_tag_detection(self, uid: str) -> None:
+        """
+        Détermine le type de tag (BADGE ou OUTIL) en cherchant dans les mappings.
+        Puis exécute l'action appropriée.
+        """
+        tag_type = None
+        
+        with self.lock:
+            # Chercher dans les badges
+            if uid in self.badge_to_ouvrier:
+                tag_type = "BADGE"
+            # Chercher dans les outils
+            elif uid in self.tag_to_outil:
+                tag_type = "OUTIL"
+        
+        # Exécuter l'action en dehors du lock pour éviter les acquisitions multiples
+        if tag_type == "BADGE":
+            self._handle_badge(uid)
+        elif tag_type == "OUTIL":
+            self._handle_outil(uid)
+        else:
+            # Tag inconnu : alarme
+            logger.warning(f"Tag inconnu: {uid}")
+            if self.on_alarme:
+                self.on_alarme("TAG_INCONNU", f"Tag non enregistré: {uid}")
     
     def _handle_badge(self, badge_uid: str) -> None:
         """Gère la détection d'un badge ouvrier."""
@@ -192,7 +218,7 @@ class RFIDService:
         self.detections_recentes.append(detection)
         
         with self.lock:
-            # Vérifier si le badge est connu
+            # Vérifier si le badge est connu (peut changer entre _handle_tag_detection et ici)
             if badge_uid not in self.badge_to_ouvrier:
                 logger.warning(f"Badge inconnu: {badge_uid}")
                 if self.on_alarme:
@@ -224,7 +250,7 @@ class RFIDService:
         self.detections_recentes.append(detection)
         
         with self.lock:
-            # Vérifier si l'outil est connu
+            # Vérifier si l'outil est connu (peut changer entre _handle_tag_detection et ici)
             if tag_uid not in self.tag_to_outil:
                 logger.warning(f"Outil inconnu: {tag_uid}")
                 if self.on_alarme:

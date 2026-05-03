@@ -17,7 +17,7 @@ class ModeNuitRequest(BaseModel):
 
 
 class RFIDConnectRequest(BaseModel):
-    port: str = "/dev/tty.usbmodem13301"
+    port: str = "/dev/tty.usbmodem13201"
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -178,11 +178,16 @@ def simulate_badge(badge_uid: str):
     # Vérifier si l'ouvrier est présent
     was_present = badge_uid in service.ouvriers_presents
     
-    service._handle_badge(badge_uid)
+    # Passer par _handle_tag_detection pour respecter la nouvelle logique
+    service._handle_tag_detection(badge_uid)
     
     # Déterminer l'action effectuée
     is_present_now = badge_uid in service.ouvriers_presents
-    action = "Entrée dans le conteneur" if is_present_now else "Sortie du conteneur"
+    
+    if badge_uid in service.badge_to_ouvrier:
+        action = "Entrée dans le conteneur" if is_present_now else "Sortie du conteneur"
+    else:
+        action = "Badge inconnu - alarme déclenchée"
     
     return {"simulated": "badge", "uid": badge_uid, "action": action}
 
@@ -197,17 +202,22 @@ def simulate_outil(tag_uid: str):
     # Vérifier si l'outil est déjà emprunté
     was_borrowed = tag_uid in service.outils_empruntes
     
-    service._handle_outil(tag_uid)
+    # Passer par _handle_tag_detection pour respecter la nouvelle logique
+    service._handle_tag_detection(tag_uid)
     
     # Déterminer le résultat
     is_borrowed_now = tag_uid in service.outils_empruntes
-    if was_borrowed and not is_borrowed_now:
-        result = "Retour enregistré"
-    elif not was_borrowed and is_borrowed_now:
-        result = "Emprunt créé"
-    elif not was_borrowed:
-        result = "Alarme déclenchée (pas d'ouvrier détecté)"
+    
+    if tag_uid in service.tag_to_outil:
+        if was_borrowed and not is_borrowed_now:
+            result = "Retour enregistré"
+        elif not was_borrowed and is_borrowed_now:
+            result = "Emprunt créé"
+        elif not was_borrowed:
+            result = "Alarme déclenchée (pas d'ouvrier détecté)"
+        else:
+            result = "Aucune action"
     else:
-        result = "Aucune action"
+        result = "Tag inconnu - alarme déclenchée"
     
     return {"simulated": "outil", "uid": tag_uid, "result": result}
